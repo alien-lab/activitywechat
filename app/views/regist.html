@@ -1,1 +1,124 @@
-<h3 ng-click="click()">注册页面</h3>
+<style>
+    #regform{
+        margin-top:51px;
+    }
+</style>
+<div class="nav navbar-fixed-top navbar-inverse">
+    <div class="navbar-brand">申请报名</div>
+</div>
+<div class="panel panel-default"  id="regform">
+    <div class="panel-heading">家庭信息</div>
+    <div class="panel-body">
+        <form class="form" name="form1" novalidate="novalidate">
+            <div class="form-group">
+                <label>家长姓名：</label>
+                <input class="form-control" type="text" ng-model="form.parentName" placeholder="您的大名:)" required/>
+            </div>
+            <div class="form-group">
+                <label>手机号码：</label>
+                <input class="form-control" type="text" ng-model="form.phone" placeholder="您的手机号码" required/>
+            </div>
+        </form>
+        <form class="form-inline" name="form2" novalidate="novalidate">
+            <div class="form-group">
+                <label>手机验证码：</label>
+                <input class="form-control" type="text" ng-model="form.phonecode" placeholder="点击按钮获取验证码" required/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-sm btn-warning" ng-disabled="form.phone==''" ng-click="sendSMS()">获取验证码</button>
+            </div>
+        </form>
+        <form class="form">
+            <div class="form-group">
+                <label>电子邮箱：</label>
+                <input class="form-control" type="text" ng-model="form.email" placeholder="您的电子邮箱地址"/>
+            </div>
+            <div class="form-group">
+                <label>与参与者关系：</label>
+                <select class="form-control" ng-model="form.relation">
+                    <option value="father">父亲</option>
+                    <option value="mother" selected>母亲</option>
+                </select>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-heading">孩子信息</div>
+    <div class="panel-body">
+        <form class="form" name="form3" novalidate="novalidate">
+            <div class="form-group">
+                <label>孩子姓名：</label>
+                <input class="form-control" type="text" ng-model="form.childName" placeholder="您孩子的大名:)" required/>
+            </div>
+        </form>
+        <form class="form-inline">
+            <div class="form-group">
+                <label>性别：</label>
+                <select class="form-control" ng-model="form.childSex">
+                    <option value="boy" selected>男</option>
+                    <option value="girl">女</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>年龄：</label>
+                <input type="number" class="form-control" ng-model="form.age" placeholder="您的孩子多大了？">
+            </div>
+        </form>
+        <form class="form">
+            <div class="form-group">
+                <label>在读学校：</label>
+                <input type="text" class="form-control" ng-model="form.school" placeholder="您的孩子就读于哪所学校？">
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-heading">艺术兴趣</div>
+    <div class="panel-body">
+        <form class="form">
+            <div class="form-group">
+                <label>兴趣爱好：</label>
+                <textarea rows="3" class="form-control" ng-model="form.interesting"></textarea>
+            </div>
+            <div class="form-group">
+                <label>未来梦想发展方向：</label>
+                <textarea rows="3" class="form-control" ng-model="form.future"></textarea>
+            </div>
+            <div class="form-group">
+                <label>曾参加艺术教育经历：</label>
+                <textarea rows="3" class="form-control" ng-model="form.education"></textarea>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-heading">参加本次活动目的</div>
+    <div class="panel-body">
+        <form class="form">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 目的1
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 目的2
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"> 目的3
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="panel-footer">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"> 同意<a href="javascript:void(0)">报名协议</a>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">提交报名</button>
+
+    </div>
+</div>
+
