@@ -6,7 +6,7 @@
 
 // Declare app level module which depends on views, and components
     angular.module('xjszrs', [
-        "ui.router",'toaster',"ngAnimate","ngCookies","ngStorage","ngCacheBuster"
+        "ui.router",'toaster',"ngAnimate","ngCookies","ngStorage"
     ]).
     config(['$stateProvider', '$locationProvider', '$urlRouterProvider','$httpProvider','$urlMatcherFactoryProvider',
         function($stateProvider,$locationProvider,$urlRouterProvider,$httpProvider,$urlMatcherFactoryProvider) {//路由定义
@@ -61,6 +61,7 @@
         .module('xjszrs')
         .constant('smsurl', "http://www.bigercat.com/activityserver/api/sendsms")
         .constant('tokenUrl', "http://www.bigercat.com/activityserver/api/authenticate")
+        .constant('domain',"http://localhost:8082/")
         .constant('homePage',"regist")
     ;
 })();

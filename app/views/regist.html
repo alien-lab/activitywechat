@@ -114,10 +114,10 @@
     <div class="panel-footer">
         <div class="checkbox">
             <label>
-                <input type="checkbox"> 同意<a href="javascript:void(0)">报名协议</a>
+                <input type="checkbox" ng-model="form.aggree"> 同意<a href="javascript:void(0)">报名协议</a>
             </label>
         </div>
-        <button type="submit" class="btn btn-primary">提交报名</button>
+        <button type="submit" class="btn btn-primary" ng-click="saveReg()">提交报名</button>
 
     </div>
 </div>

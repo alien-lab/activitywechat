@@ -5,15 +5,16 @@
         .module('xjszrs')
         .config(httpConfig);
 
-    httpConfig.$inject = ['$urlRouterProvider', '$httpProvider', 'httpRequestInterceptorCacheBusterProvider', '$urlMatcherFactoryProvider'];
+    httpConfig.$inject = ['$urlRouterProvider', '$httpProvider', '$urlMatcherFactoryProvider'];
 
-    function httpConfig($urlRouterProvider, $httpProvider, httpRequestInterceptorCacheBusterProvider, $urlMatcherFactoryProvider) {
+    function httpConfig($urlRouterProvider, $httpProvider, $urlMatcherFactoryProvider) {
         //Cache everything except rest api requests
-        httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
+        //httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
 
         $urlRouterProvider.otherwise('/');
-        $httpProvider.defaults.headers.put['Content-Type']='application/x-www-form-urlencoded';
-        $httpProvider.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded';
+        $httpProvider.defaults.headers.put['Content-Type']='application/x-www-form-urlencoded;charset=UTF-8';
+        $httpProvider.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded;charset=UTF-8';
+
         $httpProvider.defaults.transformRequest=[function ( data ) {
             var str = '';
             for( var i in data ) {

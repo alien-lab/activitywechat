@@ -17,4 +17,18 @@
             });
         }
     }]);
+
+    app.service("regService",["$http","domain",function($http,domain){
+        this.reg=function(form,callback){
+            $http({
+                url:domain+"api/join-lists/json",
+                method:"POST",
+                data:{joinJson:angular.toJson(form)}
+            }).then(function(result){
+                callback(result,true);
+            },function(result){
+                callback(result,false);
+            });
+        }
+    }]);
 })();
