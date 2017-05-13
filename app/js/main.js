@@ -6,7 +6,7 @@
 
 // Declare app level module which depends on views, and components
     angular.module('xjszrs', [
-        "ui.router",'toaster',"ngAnimate","ngCookies","ngStorage"
+        "ui.router",'toaster',"ngAnimate","ngCookies","ngStorage","ngResource"
     ]).
     config(['$stateProvider', '$locationProvider', '$urlRouterProvider','$httpProvider','$urlMatcherFactoryProvider',
         function($stateProvider,$locationProvider,$urlRouterProvider,$httpProvider,$urlMatcherFactoryProvider) {//路由定义
@@ -27,30 +27,33 @@
 })();
 (function () {
     'use strict';
-    angular.module('xjszrs').run(['$rootScope', '$log', function($rootScope, $log){
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-            $log.debug('successfully changed states') ;
+    angular.module('xjszrs').run(['$rootScope', '$log',"wechatService","$location","runmodal","AuthServerProvider",
+        function($rootScope, $log,wechatService,$location,runmodal,AuthServerProvider){
+            AuthServerProvider.login({
+                username: "admin",
+                password: "admin123!",
+                rememberMe: true
+            },function(){
+                //启动
+                wechatService.wechatConfig();
+                if(runmodal=="dev"){//调试模式模拟身份
+                    wechatService.testUser();
+                }else{
+                    var url=$location.$$absUrl;
+                    var pos=url.indexOf("code=");
+                    if(pos>0){
+                        url=url.substring(pos+5);
+                        console.log(url);
+                        var nextPos=url.indexOf("&");
+                        var code=url.substring(0,nextPos);
+                        console.log(code);
+                        console.log("system start! find code param.invoke code user method");
+                        wechatService.loadWechatUser(code);
+                    }
 
-            $log.debug('event', event);
-            $log.debug('toState', toState);
-            $log.debug('toParams', toParams);
-            $log.debug('fromState', fromState);
-            $log.debug('fromParams', fromParams);
-        });
+                }
+            });
 
-        $rootScope.$on('$stateNotFound', function(event, unfoundState, fromState, fromParams){
-            $log.error('The request state was not found: ' + unfoundState);
-        });
-
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error){
-            $log.error('An error occurred while changing states: ' + error);
-
-            $log.debug('event', event);
-            $log.debug('toState', toState);
-            $log.debug('toParams', toParams);
-            $log.debug('fromState', fromState);
-            $log.debug('fromParams', fromParams);
-        });
     }]);
 
 })();
@@ -60,8 +63,11 @@
     angular
         .module('xjszrs')
         .constant('smsurl', "http://www.bigercat.com/activityserver/api/sendsms")
-        .constant('tokenUrl', "http://www.bigercat.com/activityserver/api/authenticate")
-        .constant('domain',"http://localhost:8082/")
+        .constant('tokenUrl', "http://www.bigercat.com/activityserver/api/authenticate/client")
+        .constant('domain',"http://www.bigercat.com/activityserver/")
+        .constant('rootpath',"http://www.bigercat.com/activitywechat/")
         .constant('homePage',"regist")
+        .constant('wechatappid',"wx83f372e021582278")
+        .constant('runmodal',"prod")
     ;
 })();

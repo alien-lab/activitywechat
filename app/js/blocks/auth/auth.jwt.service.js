@@ -22,23 +22,29 @@
             return $localStorage.authenticationToken || $sessionStorage.authenticationToken;
         }
 
-        function login (credentials) {
-
+        function login (credentials,callback) {
             var data = {
                 username: credentials.username,
-                password: credentials.password,
+                pwd: credentials.password,
                 rememberMe: credentials.rememberMe
             };
-            return $http.post(tokenUrl, data).success(authenticateSuccess);
-
-            function authenticateSuccess (data, status, headers) {
-                var bearerToken = headers('Authorization');
-                if (angular.isDefined(bearerToken) && bearerToken.slice(0, 7) === 'Bearer ') {
-                    var jwt = bearerToken.slice(7, bearerToken.length);
+            return $http({
+                url:tokenUrl,
+                method:"POST",
+                data:data
+            }).then(function(result){
+                var token=result.data.id_token;
+                if (angular.isDefined(token) && token.slice(0, 7) === 'Bearer ') {
+                    var jwt = token.slice(7, token.length);
                     service.storeAuthenticationToken(jwt, credentials.rememberMe);
                     return jwt;
+                }else{
+                    service.storeAuthenticationToken(token, credentials.rememberMe);
                 }
-            }
+                if(callback){
+                    callback(token);
+                }
+            });
         }
 
         function loginWithToken(jwt, rememberMe) {

@@ -17,6 +17,7 @@
     "angularLocalStorage": "ngStorage#^0.3.2",
     "ngstorage": "^0.3.11",
     "angular-swiper": "^0.4.0",
-    "angular-cache-buster": "^0.4.3"
+    "angular-cache-buster": "^0.4.3",
+    "angular-resource": "^1.6.4"
   }
 }

@@ -18,17 +18,21 @@
         }
     }]);
 
-    app.service("regService",["$http","domain",function($http,domain){
+    app.service("regService",["regResource",function(regResource){
         this.reg=function(form,callback){
-            $http({
-                url:domain+"api/join-lists/json",
-                method:"POST",
-                data:{joinJson:angular.toJson(form)}
-            }).then(function(result){
+            regResource.reg({
+                joinJson:angular.toJson(form)
+            },function(result){
                 callback(result,true);
             },function(result){
                 callback(result,false);
             });
         }
     }]);
+
+    app.factory("regResource",["$resource","domain",function($resource,domain){
+        return $resource("",{},{
+            'reg':{method:'POST',url:domain+"api/join-lists/json"}
+        });
+    }])
 })();
