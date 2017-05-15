@@ -2,8 +2,8 @@
     'use strict';
 
     var app=angular.module("xjszrs");
-    app.service("wechatService",["$http","domain","wechatappid","wechatObject",
-        function($http,domain,wechatappid,wechatObject){
+    app.service("wechatService",["$http","domain","wechatappid","wechatObject","$rootScope",
+        function($http,domain,wechatappid,wechatObject,$rootScope){
         this.wechatConfig=function(){
             $http({
                 url:domain+"api/jsapi",
@@ -13,7 +13,7 @@
                 method:"POST"
             }).then(function(response){
                 wx.config({
-                    debug: true,
+                    debug: false,
                     appId: response.data.appid,
                     timestamp: response.data.timestamp,
                     nonceStr: response.data.nonceStr,
@@ -81,13 +81,17 @@
                 wechatObject.openid=response.data.openid;
                 wechatObject.nickname=response.data.nickname;
                 wechatObject.icon=response.data.headimgurl;
+                $rootScope.isloading=false;
+                $rootScope.openid=wechatObject.openid;
             });
         }
 
         this.testUser=function(){
-            wechatObject.openid="testopenid";
+            wechatObject.openid="one5hs5IJ14OWi-xNUvFetRIhA1g";
             wechatObject.nickname="临时用户";
             wechatObject.icon="image/logo.jpg";
+            $rootScope.openid=wechatObject.openid;
+            //$rootScope.isloading=false;
         }
     }]);
     app.factory("wechatObject",[function(){

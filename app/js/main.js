@@ -29,6 +29,7 @@
     'use strict';
     angular.module('xjszrs').run(['$rootScope', '$log',"wechatService","$location","runmodal","AuthServerProvider",
         function($rootScope, $log,wechatService,$location,runmodal,AuthServerProvider){
+            $rootScope.isloading=true;
             AuthServerProvider.login({
                 username: "admin",
                 password: "admin123!",

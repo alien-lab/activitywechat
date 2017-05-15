@@ -5,9 +5,8 @@
 (function(){
     'use strict';
     var app=angular.module("xjszrs");
-    app.controller("registController",["$scope","$state","$location","smsService","toaster","regService","wechatObject",
-        function($scope,$state,$location,smsService,toaster,regService,wechatObject){
-        var code=$location.search().code;
+    app.controller("registController",["$scope","$state","$location","smsService","toaster","regService","wechatObject","$rootScope",
+        function($scope,$state,$location,smsService,toaster,regService,wechatObject,$rootScope){
         $scope.form={
             openid:wechatObject.openid,
             icon:wechatObject.icon,
@@ -22,8 +21,32 @@
             childSex:"boy",
             age:6,
             school:"",
+            joinkids:1,
+            joinadults:1,
             actFlag:"xjszrs"
         }
+
+        $scope.isnew=true;
+        $scope.joinStatus="";
+        $scope.$watch("$root.openid",function(newvalue,oldvalue){
+            console.log("openid changed:",newvalue);
+            if(newvalue!=""){
+                $rootScope.isloading=true;
+                regService.getReg(newvalue,function(result){
+                    $rootScope.isloading=false;
+                    console.log("getreg",result);
+                    if(result.data.length>0){
+                        var join=result.data[0];
+                        $scope.isnew=false;
+                        $scope.joinStatus=join.joinStatus;
+                        $scope.form=angular.fromJson(join.joinForm);
+                        console.log($scope.form);
+                    }
+                });
+            }
+        },true);
+
+
         $scope.sendSMS=function(){
             if($scope.form.phone==""){
                 toaster.pop("error","错误提示","请输入手机号获取验证码");
@@ -31,7 +54,7 @@
             }
             smsService.sendSMS($scope.form.phone,function(result,iserror){
                 if(!iserror){
-                    toaster.pop("error","错误提示",result);
+                    toaster.pop("error","错误提示",result.data.errormsg);
                     return;
                 }
                 $scope.form.smsid=result.data.identifier;
@@ -50,10 +73,10 @@
                 toaster.pop("warning","操作提示","请输入手机号码");
                 return;
             }
-            if($scope.form.phonecode==""||$scope.form.phonecode==null){
-                toaster.pop("warning","操作提示","请输入短信验证码");
-                return;
-            }
+            // if($scope.form.phonecode==""||$scope.form.phonecode==null){
+            //     toaster.pop("warning","操作提示","请输入短信验证码");
+            //     return;
+            // }
             if($scope.form.childName==""||$scope.form.childName==null){
                 toaster.pop("warning","操作提示","请输入孩子姓名");
                 return;
@@ -69,10 +92,11 @@
             regService.reg($scope.form,function(result,iserr){
                 console.log(result,iserr);
                 if(!iserr){
-                    toaster.pop("warning","操作提示",result.data.errorMsg);
+                    toaster.pop("warning","操作提示",result.errormsg);
                     return;
                 }
                 var orderinfo=result.orderInfo;
+                var joinList=result.joinList;
                 wx.chooseWXPay({
                     timestamp: orderinfo.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                     nonceStr: orderinfo.nonceStr, // 支付签名随机串，不长于 32 位
@@ -83,6 +107,14 @@
                         // 支付成功后的回调函数
                         if(res.errMsg== "chooseWXPay:ok" ) {
                             console.log("支付成功",res);
+                            regService.payFinish(joinList.joinOpenid,joinList.orderNo,function(payresult,error){
+                                if(!iserr){
+                                    toaster.pop("warning","操作提示",payresult.data.errormsg);
+                                    return;
+                                }
+                                toaster.pop("info","报名成功","感谢您的报名。您的报名信息已提交，我们将很快审核您的信息，请关注服务号后续通知。");
+                                $scope.joinStatus=payresult.data.joinStatus;
+                            });
                         }
                     }
                 });
