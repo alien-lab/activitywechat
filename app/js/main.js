@@ -64,6 +64,9 @@
     angular
         .module('xjszrs')
         .constant('smsurl', "http://www.bigercat.com/activityserver/api/sendsms")
+        // .constant('tokenUrl', "http://localhost:8082/api/authenticate/client")
+        // .constant('domain',"http://localhost:8082/")
+        // .constant('rootpath',"http://localhost:8082/activitywechat/")
         .constant('tokenUrl', "http://www.bigercat.com/activityserver/api/authenticate/client")
         .constant('domain',"http://www.bigercat.com/activityserver/")
         .constant('rootpath',"http://www.bigercat.com/activitywechat/")

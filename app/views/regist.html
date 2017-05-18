@@ -3,7 +3,111 @@
         margin-top:10px;
     }
 </style>
-<div class="panel panel-default" >
+<div class="panel panel-success" ng-if="ispreview">
+    <div class="panel-heading">
+        <h4 class="header">我的报名信息</h4>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-default" >
+            <div class="panel-heading">基本信息 / Basic Information</div>
+            <div class="panel-body">
+                <p>
+                    <strong>儿童 / Kids：</strong>{{form.joinkids}}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default" >
+            <div class="panel-heading">监护人信息 / Guardian Information</div>
+            <div class="panel-body">
+                <p>
+                    <strong>姓名 / Name：</strong>{{form.parentName}}
+                </p>
+                <p>
+                    <strong>称谓 / Kinship：</strong>{{form.kinship==0?"母亲":form.kinship==1?"父亲":form.othercheck}}
+                </p>
+                <p>
+                    <strong>手机号码 / Mobile：</strong>{{form.phone}}
+                </p>
+                <p>
+                    <strong>电子邮件 / Email：</strong>{{form.email}}
+                </p>
+                <p>
+                    <strong>职业类型 / Occupation：</strong>{{form.occupation}}
+                </p>
+                <p>
+                    <strong>艺术爱好 / Art Hobbies：</strong>{{form.parenthobbies}}
+                </p>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default" >
+            <div class="panel-heading">学员信息 / Trainee Information</div>
+            <div class="panel-body">
+                <p>
+                    <strong>姓名 / Name：</strong>{{form.childName}}
+                </p>
+                <p>
+                    <strong>性别 / Sex：</strong>{{form.kidsex==0?"女孩":"男孩"}}
+                </p>
+                <p>
+                    <strong>年龄 / Age：</strong>{{form.age}}
+                </p>
+                <p>
+                    <strong>艺术爱好 / Art Hobbies：</strong>{{form.kidhobbies}}
+                </p>
+                <p>
+                    <strong>相关经历 / Relevant Experience：</strong><br/>
+                    <p ng-if="form.experience11">无艺术课程或海外游学经历 / None</p>
+                    <p ng-if="form.experience12">儿童戏剧课程 / Children Drama Courses</p>
+                    <p ng-if="form.experience13">儿童戏剧工作坊 / Children Drama Workshop</p>
+                    <p ng-if="form.experience14">绘画或音乐类课程 / Painting or Music Courses</p>
+                    <p ng-if="form.experience15">语言类课程 / Language Courses</p>
+                    <p ng-if="form.experience16">海外游学项目 / Study Abroad Camps</p>
+                    <p ng-if="form.experience17">{{form.experience17text}}</p>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="panel panel-default" >
+            <div class="panel-heading">第二位学员信息 / 2nd Trainee Information</div>
+            <div class="panel-body">
+                <p>
+                    <strong>姓名 / Name：</strong>{{form.childName2}}
+                </p>
+                <p>
+                    <strong>性别 / Sex：</strong>{{form.kidsex2==0?"女孩":"男"}}
+                </p>
+                <p>
+                    <strong>年龄 / Age：</strong>{{form.age2}}
+                </p>
+                <p>
+                    <strong>艺术爱好 / Art Hobbies：</strong>{{form.kidhobbies2}}
+                </p>
+                <p>
+                    <strong>相关经历 / Relevant Experience：</strong><br/>
+                    <p ng-if="form.experience21">无艺术课程或海外游学经历 / None</p>
+                    <p ng-if="form.experience22">儿童戏剧课程 / Children Drama Courses</p>
+                    <p ng-if="form.experience23">儿童戏剧工作坊 / Children Drama Workshop</p>
+                    <p ng-if="form.experience24">绘画或音乐类课程 / Painting or Music Courses</p>
+                    <p ng-if="form.experience25">语言类课程 / Language Courses</p>
+                    <p ng-if="form.experience26">海外游学项目 / Study Abroad Camps</p>
+                    <p ng-if="form.experience27">{{form.experience27text}}</p>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-footer">
+        <button ng-if="joinStatus==''||joinStatus=='报名费用未交'" type="submit" class="btn btn-primary" ng-click="saveReg2()">确认支付</button>
+        <div ng-if="joinStatus!=''&&joinStatus!='报名费用未交'" class="alert alert-success">{{joinStatus}}</div>
+    </div>
+
+</div>
+<div class="panel panel-default" ng-if="!ispreview">
     <div class="panel-heading"><h4 class="header">国际儿童戏剧艺术工作坊报名</h4></div>
     <div class="panel-body">
         <p style="line-height:2;">*学员必须有1名法定监护人陪同<br/>
@@ -13,20 +117,10 @@
             <div class="panel-heading">基本信息 / Basic Information</div>
             <div class="panel-body">
                 <form class="form">
-                    <div class="form-group">
-                        <label>参加人数/Enrollment</label>
-                    </div>
-                    <div class="form-group">
-                        <div class="radio-inline">
-                            <input type="radio" ng-value=2 ng-disabled="true" name="inlineradioOptions" ng-model="form.joinkids+form.joinadults"  value="2"> 2
-                        </div>
-                        <div class="radio-inline">
-                            <input type="radio" ng-value=3 ng-disabled="true" name="inlineradioOptions" ng-model="form.joinkids+form.joinadults" value="3"> 3
-                        </div>
-                        <!--<div class="radio-inline">-->
-                            <!--<input type="radio" ng-value=4 ng-disabled="true" name="inlineradioOptions" ng-model="form.joinkids+form.joinadults" value="4"> 4-->
-                        <!--</div>-->
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label>参加人数/Enrollment</label>-->
+                    <!--</div>-->
+
                     <!--<div class="form-group">-->
                         <!--<label>成人 / Adults</label>-->
                     <!--</div>-->
@@ -43,10 +137,10 @@
                     </div>
                     <div class="form-group">
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions2" ng-value=1 ng-model="form.joinkids" value="1"> 1
+                            <input type="radio" name="inlineradioOptions2" ng-value=1 ng-model="form.joinkids"/> 1
                         </div>
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions2" ng-value=2 ng-model="form.joinkids" value="2"> 2
+                            <input type="radio" name="inlineradioOptions2" ng-value=2 ng-model="form.joinkids"/> 2
                         </div>
                     </div>
 
@@ -67,13 +161,13 @@
                     </div>
                     <div class="form-group">
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=0 ng-model="form.kinship"> 母
+                            <input type="radio" name="inlineradioOptions3" ng-value=0 ng-model="form.kinship"/> 母
                         </div>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=1 ng-model="form.kinship"  value="父"> 父
+                            <input type="radio" name="inlineradioOptions3" ng-value=1 ng-model="form.kinship"  value="父"/> 父
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=2 ng-model="form.kinship" value="其他"> 其他
+                            <input type="radio" name="inlineradioOptions3" ng-value=2 ng-model="form.kinship" value="其他"/> 其他
                             <input type="text" ng-disabled="form.kinship!=2" ng-model="form.othercheck" style="margin-top:-5px;"/>
                         </label>
                     </div>
@@ -81,14 +175,14 @@
                         <label>手机号码 / Mobile</label>
                         <input class="form-control" type="text" ng-model="form.phone" placeholder="您的手机号码" required/>
                     </div>
-                    <div class="form-group" ng-if="false">
-                        <form class="form-inline" name="form2" novalidate="novalidate" >
+                    <div class="form-group">
+                        <form class="form-inline" name="form2" novalidate="novalidate" ng-if="isnew">
                             <div class="form-group">
                                 <label>手机验证码：</label>
                                 <input class="form-control" type="text" ng-model="form.phonecode" placeholder="点击按钮获取验证码" required/>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-sm btn-warning" ng-disabled="form.phone==''" ng-click="sendSMS()">获取验证码</button>
+                                <button class="btn btn-sm btn-warning" ng-disabled="form.phone==''||!codebtn" ng-click="sendSMS()">获取验证码</button>
                             </div>
                         </form>
                     </div>
@@ -123,13 +217,13 @@
                     </div>
                     <div class="form-group">
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=0 ng-model="form.kinship2"> 母
+                            <input type="radio" name="inlineradioOptions3" ng-value=0 ng-model="form.kinship2"/> 母
                         </div>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=1 ng-model="form.kinship2"  value="父"> 父
+                            <input type="radio" name="inlineradioOptions3" ng-value=1 ng-model="form.kinship2"  value="父"/> 父
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions3" ng-value=2 ng-model="form.kinship2" value="其他"> 其他
+                            <input type="radio" name="inlineradioOptions3" ng-value=2 ng-model="form.kinship2" value="其他"/> 其他
                             <input type="text" ng-disabled="form.kinship2!=2" ng-model="form.othercheck2" style="margin-top:-5px;"/>
                         </label>
                     </div>
@@ -157,55 +251,55 @@
                     <div class="form-group">
                         <label>性别 / Sex</label>
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions5" ng-value=0 ng-model="form.kidsex"> 女 / Girl
+                            <input type="radio" name="inlineradioOptions5" ng-value=0 ng-model="form.kidsex"/> 女 / Girl
                         </div>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions5" ng-value=1 ng-model="form.kidsex" > 男 / Boy
+                            <input type="radio" name="inlineradioOptions5" ng-value=1 ng-model="form.kidsex" /> 男 / Boy
                         </label>
                     </div>
                     <div class="form-group">
                         <label>年龄 / Age</label>
-                        <input type="number" max="10" min="6" class="form-control" ng-model="form.age" placeholder="您的孩子多大了？">
+                        <input type="number" max="10" min="6" class="form-control" ng-model="form.age" placeholder="您的孩子多大了？"/>
                     </div>
                     <div class="form-group">
                         <label>艺术爱好 / Art Hobbies</label>
-                        <input type="text" class="form-control" ng-model="form.kidhobbies" placeholder="">
+                        <input type="text" class="form-control" ng-model="form.kidhobbies" placeholder=""/>
                     </div>
                     <div class="form-group">
                         <label>相关经历 / Relevant Experience</label>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience11"> 无艺术课程或海外游学经历 / None
+                                <input type="checkbox" ng-model="form.experience11"/> 无艺术课程或海外游学经历 / None
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience12"> 儿童戏剧课程 / Children Drama Courses
+                                <input type="checkbox" ng-model="form.experience12"/> 儿童戏剧课程 / Children Drama Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience13"> 儿童戏剧工作坊 / Children Drama Workshop
+                                <input type="checkbox" ng-model="form.experience13"/> 儿童戏剧工作坊 / Children Drama Workshop
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience14"> 绘画或音乐类课程 / Painting or Music Courses
+                                <input type="checkbox" ng-model="form.experience14"/> 绘画或音乐类课程 / Painting or Music Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience15"> 语言类课程 / Language Courses
+                                <input type="checkbox" ng-model="form.experience15"/> 语言类课程 / Language Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience16"> 海外游学项目 / Study Abroad Camps
+                                <input type="checkbox" ng-model="form.experience16"/> 海外游学项目 / Study Abroad Camps
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience17"> 其他 / Others
+                                <input type="checkbox" ng-model="form.experience17"/> 其他 / Others
                                 <input type="text" ng-disabled="!form.experience17" ng-model="form.experience17text"/>
                             </label>
                         </div>
@@ -225,55 +319,55 @@
                     <div class="form-group">
                         <label>性别 / Sex</label>
                         <div class="radio-inline">
-                            <input type="radio" name="inlineradioOptions5" ng-value=0 ng-model="form.kidsex2"> 女 / Girl
+                            <input type="radio" name="inlineradioOptions5" ng-value=0 ng-model="form.kidsex2"/> 女 / Girl
                         </div>
                         <label class="radio-inline">
-                            <input type="radio" name="inlineradioOptions5" ng-value=1 ng-model="form.kidsex2" > 男 / Boy
+                            <input type="radio" name="inlineradioOptions5" ng-value=1 ng-model="form.kidsex2" /> 男 / Boy
                         </label>
                     </div>
                     <div class="form-group">
                         <label>年龄 / Age</label>
-                        <input type="number" max="10" min="6" class="form-control" ng-model="form.age2" placeholder="您的孩子多大了？">
+                        <input type="number" max="10" min="6" class="form-control" ng-model="form.age2" placeholder="您的孩子多大了？"/>
                     </div>
                     <div class="form-group">
                         <label>艺术爱好 / Art Hobbies</label>
-                        <input type="text" class="form-control" ng-model="form.kidhobbies2" placeholder="">
+                        <input type="text" class="form-control" ng-model="form.kidhobbies2" placeholder=""/>
                     </div>
                     <div class="form-group">
                         <label>相关经历 / Relevant Experience</label>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience21"> 无艺术课程或海外游学经历 / None
+                                <input type="checkbox" ng-model="form.experience21"/> 无艺术课程或海外游学经历 / None
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience22"> 儿童戏剧课程 / Children Drama Courses
+                                <input type="checkbox" ng-model="form.experience22"/> 儿童戏剧课程 / Children Drama Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience23"> 儿童戏剧工作坊 / Children Drama Workshop
+                                <input type="checkbox" ng-model="form.experience23"/> 儿童戏剧工作坊 / Children Drama Workshop
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience24"> 绘画或音乐类课程 / Painting or Music Courses
+                                <input type="checkbox" ng-model="form.experience24"/> 绘画或音乐类课程 / Painting or Music Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience25"> 语言类课程 / Language Courses
+                                <input type="checkbox" ng-model="form.experience25"/> 语言类课程 / Language Courses
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience26"> 海外游学项目 / Study Abroad Camps
+                                <input type="checkbox" ng-model="form.experience26"/> 海外游学项目 / Study Abroad Camps
                             </label>
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="form.experience27"> 其他 / Others
+                                <input type="checkbox" ng-model="form.experience27"/> 其他 / Others
                                 <input type="text" ng-disabled="!form.experience27" ng-model="form.experience27text"/>
                             </label>
                         </div>
@@ -282,17 +376,14 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
-            <div class="panel-footer">
-                <div class="checkbox" ng-if="isnew">
-                    <label>
-                        <input type="checkbox" ng-model="form.aggree"> 同意<a href="javascript:void(0)">报名协议</a>
-                    </label>
-                </div>
-
-                <button ng-if="joinStatus==''||joinStatus=='报名费用未交'" type="submit" class="btn btn-primary" ng-click="saveReg()">确认支付</button>
-                <div ng-if="joinStatus!=''&&joinStatus!='报名费用未交'" class="alert alert-success">{{joinStatus}}</div>
-            </div>
+    </div>
+    <div class="panel-footer">
+        <div class="checkbox" ng-if="isnew">
+            <label>
+                <input type="checkbox" ng-model="form.aggree"> 同意<a href="javascript:void(0)"/>报名协议</a>
+            </label>
         </div>
+
+        <button ng-if="joinStatus==''||joinStatus=='报名费用未交'" type="submit" class="btn btn-primary" ng-click="saveReg()">提交报名信息</button>
     </div>
 </div>

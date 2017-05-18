@@ -5,8 +5,9 @@
 (function(){
     'use strict';
     var app=angular.module("xjszrs");
-    app.controller("registController",["$scope","$state","$location","smsService","toaster","regService","wechatObject","$rootScope",
-        function($scope,$state,$location,smsService,toaster,regService,wechatObject,$rootScope){
+    app.controller("registController",["$scope","$state","$location","smsService","toaster","regService",
+        "wechatObject","$rootScope","$timeout",
+        function($scope,$state,$location,smsService,toaster,regService,wechatObject,$rootScope,$timeout){
         $scope.form={
             openid:wechatObject.openid,
             icon:wechatObject.icon,
@@ -26,6 +27,9 @@
             actFlag:"xjszrs"
         }
 
+        $scope.codebtn=true;
+        $scope.ispreview=false;
+
         $scope.isnew=true;
         $scope.joinStatus="";
         $scope.$watch("$root.openid",function(newvalue,oldvalue){
@@ -39,6 +43,9 @@
                         var join=result.data[0];
                         $scope.isnew=false;
                         $scope.joinStatus=join.joinStatus;
+                        if($scope.joinStatus!=''&&$scope.joinStatus!='报名费用未交'){
+                            $scope.ispreview=true;
+                        }
                         $scope.form=angular.fromJson(join.joinForm);
                         console.log($scope.form);
                     }
@@ -52,6 +59,10 @@
                 toaster.pop("error","错误提示","请输入手机号获取验证码");
                 return;
             }
+            $scope.codebtn=false;
+            $timeout(function(){
+                $scope.codebtn=true;
+            },1000*60);
             smsService.sendSMS($scope.form.phone,function(result,iserror){
                 if(!iserror){
                     toaster.pop("error","错误提示",result.data.errormsg);
@@ -60,31 +71,43 @@
                 $scope.form.smsid=result.data.identifier;
             });
         }
-        $scope.saveReg=function(){
-            if(wechatObject.openid==null||wechatObject.openid==""){
-                toaster.pop("error","错误提示","获取微信身份发生错误。");
+        $scope.saveReg=function() {
+            if (wechatObject.openid == null || wechatObject.openid == "") {
+                toaster.pop("error", "错误提示", "获取微信身份发生错误。");
                 return;
             }
-            if($scope.form.parentName==""||$scope.form.parentName==null){
-                toaster.pop("warning","操作提示","请输入家长姓名");
+            if ($scope.form.parentName == "" || $scope.form.parentName == null) {
+                toaster.pop("warning", "操作提示", "请输入家长姓名");
                 return;
             }
-            if($scope.form.phone==""||$scope.form.phone==null){
-                toaster.pop("warning","操作提示","请输入手机号码");
+            if ($scope.form.phone == "" || $scope.form.phone == null) {
+                toaster.pop("warning", "操作提示", "请输入手机号码");
                 return;
             }
-            // if($scope.form.phonecode==""||$scope.form.phonecode==null){
-            //     toaster.pop("warning","操作提示","请输入短信验证码");
-            //     return;
-            // }
-            if($scope.form.childName==""||$scope.form.childName==null){
-                toaster.pop("warning","操作提示","请输入孩子姓名");
+            if ($scope.form.phonecode == "" || $scope.form.phonecode == null) {
+                toaster.pop("warning", "操作提示", "请输入短信验证码");
                 return;
             }
-            if($scope.form.aggree==""||$scope.form.aggree==null){
-                toaster.pop("warning","操作提示","请阅读并同意报名协议");
+
+
+            if ($scope.form.childName == "" || $scope.form.childName == null) {
+                toaster.pop("warning", "操作提示", "请输入孩子姓名");
                 return;
             }
+
+            if ($scope.form.joinkids == 2) {
+                if ($scope.form.childName2 == "" || $scope.form.childName2 == null) {
+                    toaster.pop("warning", "操作提示", "请输入第二位孩子姓名");
+                    return;
+                }
+            }
+            if ($scope.form.aggree == "" || $scope.form.aggree == null) {
+                toaster.pop("warning", "操作提示", "请阅读并同意报名协议");
+                return;
+            }
+            $scope.ispreview = true;
+        }
+        $scope.saveReg2=function(){
             $scope.form.openid=wechatObject.openid;
             $scope.form.nickname=wechatObject.nickname;
             $scope.form.icon=wechatObject.icon;
