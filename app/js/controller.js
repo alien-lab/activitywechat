@@ -34,9 +34,11 @@
         $scope.joinStatus="";
         $scope.$watch("$root.openid",function(newvalue,oldvalue){
             console.log("openid changed:",newvalue);
-            if(newvalue!=""){
+            if(newvalue&&newvalue!=""){
                 $rootScope.isloading=true;
+                console.log("get reg start...");
                 regService.getReg(newvalue,function(result){
+                    console.log("get reg finish...",result);
                     $rootScope.isloading=false;
                     console.log("getreg",result);
                     if(result.data.length>0){
