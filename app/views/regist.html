@@ -168,24 +168,24 @@
                         </label>
                         <label class="radio-inline">
                             <input type="radio" name="inlineradioOptions3" ng-value=2 ng-model="form.kinship" value="其他"/> 其他
-                            <input type="text" ng-disabled="form.kinship!=2" ng-model="form.othercheck" style="margin-top:-5px;"/>
+                            <input type="text" ng-disabled="form.kinship!=2" ng-model="form.othercheck" style="margin-top:-5px;max-width: 80px;"/>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>手机号码 / Mobile</label>
                         <input class="form-control" type="text" ng-model="form.phone" placeholder="您的手机号码" required/>
                     </div>
-                    <div class="form-group">
-                        <form class="form-inline" name="form2" novalidate="novalidate" ng-if="isnew">
-                            <div class="form-group">
-                                <label>手机验证码：</label>
-                                <input class="form-control" type="text" ng-model="form.phonecode" placeholder="点击按钮获取验证码" required/>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-sm btn-warning" ng-disabled="form.phone==''||!codebtn" ng-click="sendSMS()">获取验证码</button>
-                            </div>
-                        </form>
-                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<form class="form-inline" name="form2" novalidate="novalidate" ng-if="isnew">-->
+                            <!--<div class="form-group">-->
+                                <!--<label>手机验证码：</label>-->
+                                <!--<input class="form-control" type="text" ng-model="form.phonecode" placeholder="点击按钮获取验证码" required/>-->
+                            <!--</div>-->
+                            <!--<div class="form-group">-->
+                                <!--<button class="btn btn-sm btn-warning" ng-disabled="form.phone==''||!codebtn" ng-click="sendSMS()">获取验证码</button>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
                     <div class="form-group">
                         <label>电子邮件 / Email</label>
                         <input class="form-control" type="text" ng-model="form.email" placeholder="您的电子邮箱地址"/>
@@ -378,11 +378,11 @@
 
     </div>
     <div class="panel-footer">
-        <div class="checkbox" ng-if="isnew">
-            <label>
-                <input type="checkbox" ng-model="form.aggree"> 同意<a href="javascript:void(0)"/>报名协议</a>
-            </label>
-        </div>
+        <!--<div class="checkbox" ng-if="isnew">-->
+            <!--<label>-->
+                <!--<input type="checkbox" ng-model="form.aggree"> 同意<a href="javascript:void(0)"/>报名协议</a>-->
+            <!--</label>-->
+        <!--</div>-->
 
         <button ng-if="joinStatus==''||joinStatus=='报名费用未交'" type="submit" class="btn btn-primary" ng-click="saveReg()">提交报名信息</button>
     </div>

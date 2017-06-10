@@ -86,10 +86,10 @@
                 toaster.pop("warning", "操作提示", "请输入手机号码");
                 return;
             }
-            if ($scope.form.phonecode == "" || $scope.form.phonecode == null) {
-                toaster.pop("warning", "操作提示", "请输入短信验证码");
-                return;
-            }
+            // if ($scope.form.phonecode == "" || $scope.form.phonecode == null) {
+            //     toaster.pop("warning", "操作提示", "请输入短信验证码");
+            //     return;
+            // }
 
 
             if ($scope.form.childName == "" || $scope.form.childName == null) {
@@ -103,10 +103,10 @@
                     return;
                 }
             }
-            if ($scope.form.aggree == "" || $scope.form.aggree == null) {
-                toaster.pop("warning", "操作提示", "请阅读并同意报名协议");
-                return;
-            }
+            // if ($scope.form.aggree == "" || $scope.form.aggree == null) {
+            //     toaster.pop("warning", "操作提示", "请阅读并同意报名协议");
+            //     return;
+            // }
             $scope.ispreview = true;
         }
         $scope.saveReg2=function(){
